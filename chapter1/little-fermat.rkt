@@ -1,5 +1,8 @@
 #lang racket
 
+(provide fast-prime?)
+(provide try-fermat)
+
 (define (expmod base exp m)
   (cond ((= exp 0) 1)
         ((even? exp)
@@ -9,10 +12,12 @@
 
 (define (square x) (* x x))
 
-(define (fermat-test n)
-  (define (try-it a)
+
+(define (try-fermat n a)
     (= (expmod a n n) a))
-  (try-it (+ 1 (random (- n 1)))))
+
+(define (fermat-test n)
+  (try-fermat n (+ 1 (random (- n 1)))))
 
 (define (fast-prime? n times)
   (cond ((= times 0) true)
