@@ -12,7 +12,6 @@
 
 (define (square x) (* x x))
 
-
 (define (try-fermat n a)
     (= (expmod a n n) a))
 
