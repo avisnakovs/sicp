@@ -1,12 +1,12 @@
 #lang racket
 
-(require "1.21.rkt")
+(require "little-fermat.rkt")
 
 (define (timed-prime-test n)
   (start-prime-test n (current-inexact-milliseconds)))
 
 (define (start-prime-test n start-time)
-  (if (prime? n)
+  (if (fast-prime? n 8)
       (begin (display n) (report-prime (- (current-inexact-milliseconds) start-time)))
       #f))
 
