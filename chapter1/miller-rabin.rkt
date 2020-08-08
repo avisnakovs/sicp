@@ -14,7 +14,8 @@
 (define (expmod base exp m)
   (cond ((= exp 0) 1)
         ((even? exp)
-         (remainder (square (expmod base (/ exp 2) m)) m))
+         (let [rem (remainder (square (expmod base (/ exp 2) m)) m)]
+           (if (= 1 rem) 0 rem)))
         (else
          (remainder (* base (expmod base (- exp 1) m)) m))))
 
