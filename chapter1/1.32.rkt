@@ -13,8 +13,6 @@
       (combiner (term a) (accumulate combiner null-value term (next a) next b))))
  
 
-(define (product term a next b)
-  (accumulate * 1.0 term a next b))
-
 (define (sum term a next b)
-  (accumulate + 0 term a next b))
+  (accumulate me-prime? + 0 term a next b))
+

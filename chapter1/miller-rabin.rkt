@@ -1,22 +1,28 @@
 #lang racket
 
-(define (mr-prime? n times)
-  (cond ((= times 0) true)
-        ((mr-test n) (mr-prime? n (- times 1)))
-        (else false)))
+(provide prime?)
 
-(define (mr-test n)
-  (try-mr n (+ 1 (random (- n 1)))))
-
-(define (try-mr n a)
-    (= (expmod a (- n 1) n) 1))
-
-(define (expmod base exp m)
-  (cond ((= exp 0) 1)
-        ((even? exp)
-         (let [rem (remainder (square (expmod base (/ exp 2) m)) m)]
-           (if (= 1 rem) 0 rem)))
-        (else
-         (remainder (* base (expmod base (- exp 1) m)) m))))
+(define (prime? n)
+  (miller-rabin-test (- n 1) n)) 
+  
+(define (miller-rabin-test a n) 
+  (cond ((= a 0) true)
+        ((= (expmod a (- n 1) n) 1) (miller-rabin-test (- a 1) n)) 
+        (else false))) 
+  
+(define (expmod base exp m) 
+  (cond ((= exp 0) 1) 
+        ((even? exp) 
+         (let ((x (expmod base (/ exp 2) m))) 
+           (if (non-trivial-sqrt? x m) 0 (remainder (square x) m)))) 
+        (else 
+         (remainder (* base (expmod base (- exp 1) m)) 
+                    m)))) 
+  
+(define (non-trivial-sqrt? n m) 
+  (cond ((= n 1) false) 
+        ((= n (- m 1)) false) 
+        (else (= (remainder (square n) m) 1))))
 
 (define (square x) (* x x))
+
